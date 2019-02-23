@@ -46,8 +46,9 @@
 </nav>
 <div class="content-wrapper">
     <h1>Star Wars universe planets</h1>
-    <button id="previous" class="btn btn-primary disabled nav-button" data-link="">Previous</button>
-    <button id="next" class="btn btn-primary nav-button" data-link="{{ data.next }}">Next</button>
+    <button id="previous" class="btn btn-primary nav-button disabled" data-link="" data-page="1">Previous</button>
+    <div id="current-page" data-page="{{ data }}"></div>
+    <button id="next" class="btn btn-primary nav-button" data-link="{{ data.next }}" data-page="1">Next</button>
     <div class="table_margin">
         {% block content %} {% endblock %}
     </div>

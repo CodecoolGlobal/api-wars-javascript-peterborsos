@@ -4,7 +4,7 @@ function generateTable(data) {
     let body = document.createElement('tbody');
     body.setAttribute('id', 'tbody');
     document.getElementById('table').appendChild(body);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < data.results.length; i++) {
         let tr = document.createElement('tr');
         tr.setAttribute('id', i);
         document.getElementById('tbody').appendChild(tr);
@@ -34,7 +34,8 @@ function generateTable(data) {
         document.getElementById(i).appendChild(residents);
         if (data.results[i].residents.length > 0) {
             let modalButton = document.createElement('button');
-            modalButton.setAttribute('class', 'btn btn-light');
+            modalButton.setAttribute('data-residents', data.results[i].residents);
+            modalButton.setAttribute('class', 'btn btn-light resident-button');
             modalButton.innerHTML = data.results[i].residents.length + ' resident(s)';
             document.getElementById(i + 'residents').appendChild(modalButton);
         } else {
@@ -53,22 +54,36 @@ function generateTable(data) {
 
 
 function updateApiLink(data) {
-    
+    let nextButton = document.getElementById('next');
+    nextButton.dataset.link = data.next;
+    let previousButton = document.getElementById('previous');
+    previousButton.dataset.link = data.previous;
+    console.log(nextButton.dataset.link);
+    if (data.previous == null) {
+        previousButton.classList.add('disabled');
+    } else {
+        previousButton.classList.remove('disabled');
+    }
+    if (data.next == null) {
+        nextButton.classList.add('disabled');
+    } else {
+        nextButton.classList.remove('disabled');
+    }
 }
 
 
-function pageNavClick(event) {
+function pageNavClick() {
     let link = this.dataset.link;
+    console.log(link);
     fetch(link)
         .then(function (response) {
             return response.json();
         })
         .then(function (myJson) {
-            //console.log(JSON.stringify(myJson));
             generateTable(myJson);
+            updateApiLink(myJson);
+            addEventListenerResidents();
         });
-    // TODO: link save to buttons dataset
-
 }
 
 
@@ -79,11 +94,36 @@ function addEventListenerNavigationPages() {
     }
 }
 
-function generateTable2(data) {
-    for (i = 0; i < 8; i++) {
-        let row = document.createElement('td');
-        row.innerHTML = data.results[i].name;
-        document.getElementById('table').appendChild(row);
+
+function showResidents (data) {
+    console.log(data.height);
+}
+
+function clickResidents() {
+    let residentsString = this.dataset.residents; // needed to be splitted to receive an iterable list
+    //let residentsStringWithoutListBrackets = residentsString.substring(1, residentsString.length-1);
+    //console.log(residentsStringWithoutListBrackets);
+    let residents = residentsString.split(',');
+    console.log(residents);
+    for (let i=0; i < residents.length; i++) {
+        console.log(residents[i]);
+        let actualRes = residents[i].split('/');
+        let url = "https://swapi.co/api/people/"+`${actualRes[5]}`;
+        console.log(actualRes[5]);
+        fetch(`${url}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                showResidents(myJson)
+            });
+    }
+}
+
+function addEventListenerResidents () {
+    let buttons = document.querySelectorAll('.resident-button');
+    for (let button of buttons) {
+        button.addEventListener('click', clickResidents);
     }
 }
 
@@ -95,7 +135,8 @@ function init() {
     }).done(function(ezajsonobject){
     });
     */
-    addEventListenerNavigationPages()
+    addEventListenerNavigationPages();
+    addEventListenerResidents();
 }
 
 init();

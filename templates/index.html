@@ -24,7 +24,7 @@
         <td>{{ planet.surface_water }} %</td>
         <td>{{ planet.population }}</td>
         {% if planet.residents %}
-        <td><button class="btn btn-light">{{ planet.residents|length }} resident(s)</button></td>
+        <td><button class="btn btn-light resident-button" data-residents="{{ planet.residents }}">{{ planet.residents|length }} resident(s)</button></td>
         {% else %}
         <td>No known residents</td>
         {% endif %}
