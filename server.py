@@ -6,9 +6,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    data = data_manager.get_api_data()
+    return render_template('index.html', data=data)
 
 
+data = data_manager.get_api_data()
+print(data)
 
 
 if __name__ == '__main__':

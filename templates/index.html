@@ -1,5 +1,36 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+<table id="table" class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Diameter</th>
+        <th>Climate</th>
+        <th>Terrain</th>
+        <th>Surface Water Percentage</th>
+        <th>Population</th>
+        <th>Residents</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    {% for planet in data.results %}
+    <tr>
+        <td>{{ planet.name }}</td>
+        <td>{{ planet.diameter }}</td>
+        <td>{{ planet.climate }}</td>
+        <td>{{ planet.terrain }}</td>
+        <td>{{ planet.surface_water }} %</td>
+        <td>{{ planet.population }}</td>
+        {% if planet.residents %}
+        <td><button class="btn btn-light">{{ planet.residents|length }} resident(s)</button></td>
+        {% else %}
+        <td>No known residents</td>
+        {% endif %}
+        <td><button class="btn btn-light">Vote</button></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
