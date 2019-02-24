@@ -36,6 +36,8 @@ function generateTable(data) {
             let modalButton = document.createElement('button');
             modalButton.setAttribute('data-residents', data.results[i].residents);
             modalButton.setAttribute('class', 'btn btn-light resident-button');
+            modalButton.setAttribute('data-toggle', 'modal');
+            modalButton.setAttribute('data-target', '.residents-modal');
             modalButton.innerHTML = data.results[i].residents.length + ' resident(s)';
             document.getElementById(i + 'residents').appendChild(modalButton);
         } else {
@@ -58,7 +60,7 @@ function updateApiLink(data) {
     nextButton.dataset.link = data.next;
     let previousButton = document.getElementById('previous');
     previousButton.dataset.link = data.previous;
-    console.log(nextButton.dataset.link);
+    // console.log(nextButton.dataset.link);
     if (data.previous == null) {
         previousButton.classList.add('disabled');
     } else {
@@ -74,7 +76,6 @@ function updateApiLink(data) {
 
 function pageNavClick() {
     let link = this.dataset.link;
-    console.log(link);
     fetch(link)
         .then(function (response) {
             return response.json();
@@ -95,21 +96,28 @@ function addEventListenerNavigationPages() {
 }
 
 
-function showResidents (data) {
-    console.log(data.height);
+function showResidents(data) {
+    let modalRow = document.createElement('tr');
+    document.getElementById('modalTbody').appendChild(modalRow);
+    modalRow.innerHTML = `<td>${data.name}</td><td>${data.height}</td><td>${data.mass}</td>
+                       <td>${data.hair_color}</td><td>${data.skin_color}</td><td>${data.eye_color}</td>
+                       <td>${data.birth_year}</td><td>${data.gender}</td>`;
 }
 
 function clickResidents() {
+    let modalTableBody = document.getElementById('modalTbody');
+    console.log(modalTableBody);
+    modalTableBody.remove();
+    let modalTable = document.createElement('tbody');
+    modalTable.setAttribute('id', 'modalTbody');
+    document.getElementById('modal-table').appendChild(modalTable);
+    let modalRow = document.createElement('tr');
+    document.getElementById('modalTbody').appendChild(modalRow);
     let residentsString = this.dataset.residents; // needed to be splitted to receive an iterable list
-    //let residentsStringWithoutListBrackets = residentsString.substring(1, residentsString.length-1);
-    //console.log(residentsStringWithoutListBrackets);
     let residents = residentsString.split(',');
-    console.log(residents);
-    for (let i=0; i < residents.length; i++) {
-        console.log(residents[i]);
+    for (let i = 0; i < residents.length; i++) {
         let actualRes = residents[i].split('/');
-        let url = "https://swapi.co/api/people/"+`${actualRes[5]}`;
-        console.log(actualRes[5]);
+        let url = "https://swapi.co/api/people/" + `${actualRes[5]}`;
         fetch(`${url}`)
             .then(function (response) {
                 return response.json();
@@ -120,7 +128,7 @@ function clickResidents() {
     }
 }
 
-function addEventListenerResidents () {
+function addEventListenerResidents() {
     let buttons = document.querySelectorAll('.resident-button');
     for (let button of buttons) {
         button.addEventListener('click', clickResidents);

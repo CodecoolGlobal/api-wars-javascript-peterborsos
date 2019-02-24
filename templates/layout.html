@@ -47,10 +47,43 @@
 <div class="content-wrapper">
     <h1>Star Wars universe planets</h1>
     <button id="previous" class="btn btn-primary nav-button disabled" data-link="" data-page="1">Previous</button>
-    <div id="current-page" data-page="{{ data }}"></div>
     <button id="next" class="btn btn-primary nav-button" data-link="{{ data.next }}" data-page="1">Next</button>
+    <div id="current-page" data-page="{{ data }}"></div>
     <div class="table_margin">
         {% block content %} {% endblock %}
+    </div>
+</div>
+<div class="modal fade residents-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Residents</h3>
+            </div>
+            <div class="modal-body">
+                <table id="modal-table" class="table table-bordered">
+                    <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Height</td>
+                                <td>Mass</td>
+                                <td>Hair color</td>
+                                <td>Skin color</td>
+                                <td>Eye color</td>
+                                <td>Birth year</td>
+                                <td>Gender</td>
+                            </tr>
+                        </thead>
+                    <tbody id="modalTbody">
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>
