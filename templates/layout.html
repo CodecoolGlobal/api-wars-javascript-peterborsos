@@ -33,7 +33,7 @@
                 <a id="statistics" class="nav-link" href="#">Voting statistics</a>
             </li>
             <li class="nav-item">
-                <a id="registration" class="nav-link" href="#">Registration</a>
+                <a id="registration" class="nav-link" data-toggle="modal" data-target=".registration-modal">Registration</a>
             </li>
             <li class="nav-item">
                 <a id="login" class="nav-link" href="#">Login</a>
@@ -50,7 +50,8 @@
     <button id="next" class="btn btn-primary nav-button" data-link="{{ data.next }}" data-page="1">Next</button>
     <div id="current-page" data-page="{{ data }}"></div>
     <div class="table_margin">
-        {% block content %} {% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 </div>
 <div class="modal fade residents-modal">
@@ -62,26 +63,45 @@
             <div class="modal-body">
                 <table id="modal-table" class="table table-bordered">
                     <thead>
-                            <tr>
-                                <td>Name</td>
-                                <td>Height</td>
-                                <td>Mass</td>
-                                <td>Hair color</td>
-                                <td>Skin color</td>
-                                <td>Eye color</td>
-                                <td>Birth year</td>
-                                <td>Gender</td>
-                            </tr>
-                        </thead>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Height</strong></td>
+                        <td><strong>Mass</strong></td>
+                        <td><strong>Hair color</strong></td>
+                        <td><strong>Skin color</strong></td>
+                        <td><strong>Eye color</strong></td>
+                        <td><strong>Birth year</strong></td>
+                        <td><strong>Gender</strong></td>
+                    </tr>
+                    </thead>
                     <tbody id="modalTbody">
-                        <tr>
-                            <td></td>
-                        </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade registration-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registration</h3>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('registration') }}" method="post">
+                    <p><input type="text" class="form-control" name="username" placeholder="username" required></p>
+                    <p><input type="password" class="form-control" name="password" placeholder="password" required></p>
+                    <input type="submit" class="btn btn-outline-success btn-block" value="I want to register!">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-danger btn-block" data-dismiss="modal">I have changed my mind.</button>
             </div>
         </div>
     </div>

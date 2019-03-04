@@ -24,8 +24,10 @@ function generateTable(data) {
         terrain.innerHTML = data.results[i].terrain;
         document.getElementById(i).appendChild(terrain);
         let surface = document.createElement('td');
-        surface.innerHTML = data.results[i].surface_water;
+        // if (data.results[i].surface_water == 'unknown') { // TODO befejezni ezt!
+        surface.innerHTML = data.results[i].surface_water + '%';
         document.getElementById(i).appendChild(surface);
+        // }
         let population = document.createElement('td');
         population.innerHTML = data.results[i].population;
         document.getElementById(i).appendChild(population);
@@ -57,6 +59,7 @@ function generateTable(data) {
 
 function updateApiLink(data) {
     let nextButton = document.getElementById('next');
+    console.log(data);
     nextButton.dataset.link = data.next;
     let previousButton = document.getElementById('previous');
     previousButton.dataset.link = data.previous;
@@ -137,12 +140,6 @@ function addEventListenerResidents() {
 
 
 function init() {
-    /*
-    let data = $.getJSON('https://swapi.co/api/planets', function (response) {
-        console.log(response).done
-    }).done(function(ezajsonobject){
-    });
-    */
     addEventListenerNavigationPages();
     addEventListenerResidents();
 }
